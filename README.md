@@ -9,6 +9,6 @@ Just type mighty and let it go!
 
 ## License
 
-Copyright © 2013 FIXME
+Copyright © 2014
 
-Distributed under the Eclipse Public License, the same as Clojure.
+MIT License
