@@ -71,12 +71,28 @@
 
  (def first-array-atom (atom (make-array Integer/TYPE 100 4)))
 
-
  (defn grow-array! [a s]
    (let [a1 (atom a)
-         a2 (make-array Integer/TYPE (+ (length a) s) 4)]
-     (into a2 a)
-     (swap! a1 a2)
+         a2 (make-array Integer/TYPE (+ (alength a) s))]
+     (System/arraycopy a 0 a2 0 (alength a))
+     (reset! a1 a2)
    ))
 
+ (-> (System/getProperties) (.get "os.name"))
 
+ (grow-array! ia-arr 10)
+ (pprint ia-arr)
+
+ (defn grow-array [a new-size]
+  (let [new-array (int-array new-size)]
+    (System/arraycopy a
+                    0
+                    new-array
+                    0
+                    (count a))
+    new-array))
+
+(pprint (let [original-array (int-array 10)]
+  (aset original-array 0 111)
+  (aset original-array 9 999)
+  [original-array (grow-array original-array 20)]) )
