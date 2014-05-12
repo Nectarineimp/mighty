@@ -58,6 +58,7 @@
  (pprint (take 10 ma-arr))
 
  (def ia-arr (int-array [9 8 7 6 5 4 3 2 1 0]))
+
  (def ia-arr2 (int-array 10000 4)) ;; single dimension only, 2nd value is initialization
 
  (pprint ia-arr)
@@ -71,17 +72,16 @@
 
  (def first-array-atom (atom (make-array Integer/TYPE 100 4)))
 
- (defn grow-array! [a s]
-   (let [a1 (atom a)
-         a2 (make-array Integer/TYPE (+ (alength a) s))]
-     (System/arraycopy a 0 a2 0 (alength a))
-     (reset! a1 a2)
+ (def ia-arr-ref (ref (int-array [0 1 2 3 4 5])))
+ (defn grow-array! [ref-a s]
+   (let [a1 ref-a
+         a2 (make-array Integer/TYPE (+ (alength (deref ref-a)) s))]
+     (System/arraycopy (deref ref-a) 0 a2 0 (alength (deref ref-a)))
+     (dosync (ref-set a1 a2))
    ))
 
- (-> (System/getProperties) (.get "os.name"))
-
- (grow-array! ia-arr 10)
- (pprint ia-arr)
+ (grow-array! ia-arr-ref 20)
+ (pprint (deref ia-arr-ref))
 
  (defn grow-array [a new-size]
   (let [new-array (int-array new-size)]
