@@ -6,6 +6,9 @@
                                       Annotation)
            (edu.stanford.nlp.ling CoreAnnotations$SentencesAnnotation
                                   CoreAnnotations$NamedEntityTagAnnotation)
+           (edu.stanford.nlp.dcoref CorefCoreAnnotations
+                                    CorefCoreAnnotations$CorefChainAnnotation
+                                    CorefCoreAnnotations$CorefGraphAnnotation)
            edu.stanford.nlp.trees.tregex.TregexPattern
            edu.stanford.nlp.trees.tregex.tsurgeon.Tsurgeon
            edu.stanford.nlp.trees.TreeCoreAnnotations$TreeAnnotation))
@@ -114,5 +117,23 @@
                but their experiments will have to be duplicated over far greater distances to show that signals between entangled particles occur at the speed of light.")
 (text->phrases long-sentence)
 (sentence->tree (first (parse-sentences long-sentence)))
+(def graph
+  (.get (annotated-doc document) CorefCoreAnnotations$CorefChainAnnotation))
 
+(class graph)
+(.size graph)
+(.keySet graph)
+
+(def representative-mentions
+  (map #(->> %
+             .getValue
+             .getRepresentativeMention)
+       (.entrySet graph)))
+
+(def mentions (map #(.getValue %) (.entrySet graph)))
+(class (nth mentions 13))
+
+(defn chain-values [c]
+  (pprint
+   (.getChainID c)))
 
