@@ -11,7 +11,9 @@
                                     CorefCoreAnnotations$CorefGraphAnnotation)
            edu.stanford.nlp.trees.tregex.TregexPattern
            edu.stanford.nlp.trees.tregex.tsurgeon.Tsurgeon
-           edu.stanford.nlp.trees.TreeCoreAnnotations$TreeAnnotation))
+           edu.stanford.nlp.trees.TreeCoreAnnotations$TreeAnnotation
+           (java.lang.reflect.Method))
+  )
 
 (def ^:private props
   (doto (java.util.Properties.)
@@ -110,30 +112,27 @@
 (sentence->noun-phrases (first sentences))
 
 
-(annotated-doc (slurp "/home/peter/Documents/test-text/spooky-action.txt"))
-(class pipeline)
-(def document (slurp "/home/peter/Documents/test-text/spooky-action.txt"))
-(def long-sentence "The team at Delft's experiments show that we're getting better all the time at creating these \"spooky actions\",
-               but their experiments will have to be duplicated over far greater distances to show that signals between entangled particles occur at the speed of light.")
-(text->phrases long-sentence)
-(sentence->tree (first (parse-sentences long-sentence)))
-(def graph
-  (.get (annotated-doc document) CorefCoreAnnotations$CorefChainAnnotation))
+(def anno-doc (annotated-doc (slurp "/home/peter/Documents/test-text/spooky-action.txt")))
 
-(class graph)
-(.size graph)
-(.keySet graph)
+(def graph-dcoref
+  (.get anno-doc CorefCoreAnnotations$CorefChainAnnotation))
 
 (def representative-mentions
   (map #(->> %
              .getValue
              .getRepresentativeMention)
-       (.entrySet graph)))
+       (.entrySet graph-dcoref)))
 
-(def mentions (map #(.getValue %) (.entrySet graph)))
-(class (nth mentions 13))
+(.size representative-mentions)
 
-(defn chain-values [c]
-  (pprint
-   (.getChainID c)))
+(defn mention-type [m]
+  (str "Mention ID: " (.mentionID m) " Mention Type: " (.toString (.mentionType m)) " Mention: " (.mentionSpan m)))
 
+(pprint (map mention-type representative-mentions))
+
+(defn mention-map[chain-anno]
+  (let [map-set (map #(.getMentionMap (.getValue %)) (.entrySet chain-anno))])
+
+  )
+
+(map #(.getMethod %) graph-dcoref)
