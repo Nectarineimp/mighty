@@ -5,7 +5,8 @@
   (:import (edu.stanford.nlp.pipeline StanfordCoreNLP
                                       Annotation)
            (edu.stanford.nlp.ling CoreAnnotations$SentencesAnnotation
-                                  CoreAnnotations$NamedEntityTagAnnotation)
+                                  CoreAnnotations$NamedEntityTagAnnotation
+                                  CoreAnnotations$TokensAnnotation)
            (edu.stanford.nlp.dcoref CorefCoreAnnotations
                                     CorefCoreAnnotations$CorefChainAnnotation
                                     CorefCoreAnnotations$CorefGraphAnnotation)
@@ -33,3 +34,13 @@
 (def dcoref-chains (.get annotated-document CorefCoreAnnotations$CorefChainannotation))
 
 (def chain (map #(.getValue %) dcoref-chains))
+
+(def representative-mentions (map #(.getRepresentativeMention #) chain))
+
+;;TODO get tokens for each sentence
+;; CoreAnnotations$SentencesAnnotation
+;; CoreAnnotations$TokensAnnotation
+;; Now match representative-mentions with individual chain mentions
+;; Try to weed out non PRP and @ mentions. Instead create new associations.
+;; Example. It looked like an airplane. Replace It with representative-mention
+;; and if airplane has a more specific mention add that to the associations.
