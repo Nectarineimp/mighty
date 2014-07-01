@@ -135,4 +135,21 @@
 
   )
 
-(map #(.getMethod %) graph-dcoref)
+(map #(conj '() (.getKey %) (.getValue %)) graph-dcoref)
+
+(seq graph-dcoref)
+
+graph-dcoref
+
+(map list graph-dcoref)
+
+(for [[k v] graph-dcoref] [k v])
+(for [[k v] graph-dcoref] [(class k) k v])
+
+(keys graph-dcoref)
+(class (first (keys graph-dcoref)))
+
+(get graph-dcoref (int 1))
+
+(class 1)
+(class (int 1))
