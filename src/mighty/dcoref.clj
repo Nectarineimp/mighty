@@ -31,14 +31,33 @@
 
 (def annotated-document (annotated-doc raw-document))
 
-(def dcoref-chains (.get annotated-document CorefCoreAnnotations$CorefChainannotation))
+(def dcoref-chains (.get annotated-document CorefCoreAnnotations$CorefChainAnnotation))
 
 (def chain (map #(.getValue %) dcoref-chains))
 
-(def representative-mentions (map #(.getRepresentativeMention #) chain))
+(def representative-mentions (map #(.getRepresentativeMention %) chain))
 
 ;;TODO get tokens for each sentence
 ;; CoreAnnotations$SentencesAnnotation
+
+(def sentence-annotation (.get annotated-document CoreAnnotations$SentencesAnnotation))
+
+(defn tokens-sentence [sentence-annotation sentNum]
+  (.get (nth sentence-annotation sentNum) CoreAnnotations$TokensAnnotation))
+
+(defn rep-mention-coordinates [mention]
+  (let [sentNum    (dec (.sentNum mention))
+        startIndex (dec (.startIndex mention))
+        endIndex   (dec (.endIndex   mention))]
+    (vector sentNum startIndex endIndex))
+)
+
+(rep-mention-coordinates (nth representative-mentions 5))
+
+
+
+
+;;TODO
 ;; CoreAnnotations$TokensAnnotation
 ;; Now match representative-mentions with individual chain mentions
 ;; Try to weed out non PRP and @ mentions. Instead create new associations.
