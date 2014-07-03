@@ -40,10 +40,10 @@
 ;;TODO get tokens for each sentence
 ;; CoreAnnotations$SentencesAnnotation
 
-(def sentence-annotation (.get annotated-document CoreAnnotations$SentencesAnnotation))
+(def annotated-sentences (.get annotated-document CoreAnnotations$SentencesAnnotation))
 
-(defn tokens-sentence [sentence-annotation sentNum]
-  (.get (nth sentence-annotation sentNum) CoreAnnotations$TokensAnnotation))
+(defn tokens-sentence [annotated-sentences sentNum]
+  (.get (nth annotated-sentences sentNum) CoreAnnotations$TokensAnnotation))
 
 (defn rep-mention-coordinates [mention]
   (let [sentNum    (dec (.sentNum mention))
@@ -52,13 +52,41 @@
     (vector sentNum startIndex endIndex))
 )
 
-(rep-mention-coordinates (nth representative-mentions 5))
+;; ex. (rep-mention-coordinates (nth representative-mentions 5))
 
+(defn select-tokens [tokens startIndex endIndex]
+  (->> tokens
+     (split-at startIndex)
+     second
+     (split-at (- endIndex startIndex))
+     first))
 
+(defn coord-to-tokens [annotated-sentences [sentNum startIndex endIndex]]
+  (let [tokens (.get (nth annotated-sentences sentNum) CoreAnnotations$TokensAnnotation)]
+    (select-tokens tokens startIndex endIndex)))
+
+(->> (first representative-mentions)
+     rep-mention-coordinates
+     (coord-to-tokens annotated-sentences)
+     )
+
+(defn badtag? [corelabel]
+         (let [badtags '("POS")]
+           (some #(= (.tag corelabel) %) badtags)))
+
+(map badtag? (->> (first representative-mentions)
+     rep-mention-coordinates
+     (coord-to-tokens annotated-sentences)
+     ))
+
+(map #(.lemma %) (coord-to-tokens annotated-sentences [0 14 17]))
+(map #(.ner %) (coord-to-tokens annotated-sentences [0 14 17]))
+(map #(.tag %) (coord-to-tokens annotated-sentences [0 14 17]))
+
+(some #(= "POS" %) '("NNP" "NNP" "POS"))
 
 
 ;;TODO
-;; CoreAnnotations$TokensAnnotation
 ;; Now match representative-mentions with individual chain mentions
 ;; Try to weed out non PRP and @ mentions. Instead create new associations.
 ;; Example. It looked like an airplane. Replace It with representative-mention
