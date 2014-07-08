@@ -6,7 +6,8 @@
                                       Annotation)
            (edu.stanford.nlp.ling CoreAnnotations$SentencesAnnotation
                                   CoreAnnotations$NamedEntityTagAnnotation
-                                  CoreAnnotations$TokensAnnotation)
+                                  CoreAnnotations$TokensAnnotation
+                                  CoreAnnotations$MentionTokenAnnotation)
            (edu.stanford.nlp.dcoref CorefCoreAnnotations
                                     CorefCoreAnnotations$CorefChainAnnotation
                                     CorefCoreAnnotations$CorefGraphAnnotation)
@@ -35,7 +36,7 @@
 ;; Examples using data from a document about quantum teleportation.
 (def raw-document (slurp "/home/peter/Documents/test-text/spooky-action.txt"))
 (def annotated-document (annotated-doc raw-document))
-(def dcoref-chains (.get annotated-document CorefCoreAnnotations$CorefChainAnnotation))
+(def dcoref-chains (map #(.get % CorefCoreAnnotations$CorefChainAnnotation) annotated-document))
 (def chain (map #(.getValue %) dcoref-chains))
 (def representative-mentions (map #(.getRepresentativeMention %) chain))
 (def annotated-sentences (.get annotated-document CoreAnnotations$SentencesAnnotation))
@@ -44,6 +45,11 @@
   ;; Takes the processed document and recovers the token annotations from it.
   [annotated-sentences sentNum]
   (.get (nth annotated-sentences sentNum) CoreAnnotations$TokensAnnotation))
+
+(defn- sentence-2-tokens
+  ;; takes a single sentence and produces the token objects.
+  [sentence]
+  (.get sentence CoreAnnotations$TokensAnnotation))
 
 (defn- rep-mention-coordinates
   ;; Takes a representitive mention and pulls the coordinates for it as a vector of [sentence number, start index and end index]. These values are corrected to 0-start array coordinates.
@@ -77,7 +83,7 @@
   [as tc]
   (map #(hash-map :word (.originalText %) :ner (.ner %) :tag (.tag %)) (coord-to-tokens as tc)))
 
-(def noun-tags '("DT" "IN" "RP" "TO" "JJ" "JJR" "JJS" "NN" "NNS" "NNP" "NNPS"))
+(def noun-tags '("NN" "NNS" "NNP" "NNPS"))
 (def good-body-tags '("DT" "IN" "RP" "TO" "JJ" "JJR" "JJS" "NN" "NNS" "NNP" "NNPS"))
 (def good-first-tags '("NN" "NNS" "NNP" "NNPS"))
 
@@ -117,6 +123,13 @@
 ;; example
 (map #(get-rm-text % annotated-sentences) representative-mentions)
 
+(map #(.tag %) (sentence-2-tokens (nth annotated-sentences 3)))
+(map #(.originalText %) (sentence-2-tokens (nth annotated-sentences 3)))
+(.getMentionMap (nth chain 3))
+(.getSource (first (.keySet (.getMentionMap (nth chain 3)))))
+(.getTarget (first (.keySet (.getMentionMap (nth chain 3)))))
+
+(nth (tokens-sentence annotated-sentences 0) 7)
 ;;TODO
 ;; Now match representative-mentions with individual chain mentions
 ;; Try to weed out non PRP and @ mentions. Instead create new associations.
