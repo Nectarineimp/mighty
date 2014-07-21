@@ -34,9 +34,15 @@
 
 
 ;; Examples using data from a document about quantum teleportation.
-(def raw-document (slurp "/home/peter/Documents/test-text/spooky-action.txt"))
+;;(def raw-document (slurp "/home/peter/Documents/test-text/spooky-action.txt"))
+(def raw-document (slurp "universe.txt"))
+
+raw-document
+(annotated-doc "\"During the early universe, we expected cosmic inflation — this is a rapid expansion of the universe right after the Big Bang,\" said study co-author Robert Hogan, a doctoral candidate in physics at King's College in London. \"This expansion causes lots of stuff to shake around, and if we shake it too much, we could go into this new energy space, which could cause the universe to collapse.\"")
+(annotated-doc "Though those events would have occurred 13.8 billion years ago, a telescope at the South Pole known as the Background Imaging of Cosmic Extragalactic Polarization (BICEP2) recently detected the faint traces of cosmic inflation in the background microwave radiation that pervades the universe: in particular, characteristic twisted or curled waves called the B-mode pattern. (Other scientists have already begun to question the findings, saying the results may just be from dust in the Milky Way.)")
+(annotated-doc "But the theory of cosmic inflation is still speculative, and some physicists hint that what looked like primordial gravitational waves to the BICEP2 telescope may actually be signals from cosmic dust in the galaxy, said Sean Carroll, a physicist at the California Institute of Technology and author of \"The Particle at the End of the Universe: How the Hunt for the Higgs Boson Leads Us to the Edge of a New World\" (Dutton Adult, 2012).")
 (def annotated-document (annotated-doc raw-document))
-(def dcoref-chains (map #(.get % CorefCoreAnnotations$CorefChainAnnotation) annotated-document))
+(def dcoref-chains (.get annotated-document CorefCoreAnnotations$CorefChainAnnotation))
 (def chain (map #(.getValue %) dcoref-chains))
 (def representative-mentions (map #(.getRepresentativeMention %) chain))
 (def annotated-sentences (.get annotated-document CoreAnnotations$SentencesAnnotation))
@@ -130,8 +136,41 @@
 (.getTarget (first (.keySet (.getMentionMap (nth chain 3)))))
 
 (nth (tokens-sentence annotated-sentences 0) 7)
+
+(.size dcoref-chains)
+(count (.getMentionMap (nth chain 5)))
+(map #(count (.getMentionMap %)) chain)
+(nth chain 8)
+(.getRepresentativeMention (nth chain 8))
+(first (.getMentionMap (nth chain 8)))
+(.getSource (first (.keySet (.getMentionMap (nth chain 8)))))
+(.getTarget (first (.keySet (.getMentionMap (nth chain 8)))))
+
+(count annotated-sentences)
+(nth annotated-sentences 30)
+
+(defn get-rep-mention-span [chain]
+  (->> chain
+       .getRepresentativeMention
+       .mentionSpan))
+
+(get-rep-mention-span (nth chain 8))
+
+(defn chain-rm-targets[chain annotated-sencences]
+  (let [rm-representation (get-rep-mention-span chain)]))
+
+
+
+
 ;;TODO
 ;; Now match representative-mentions with individual chain mentions
 ;; Try to weed out non PRP and @ mentions. Instead create new associations.
 ;; Example. It looked like an airplane. Replace It with representative-mention
 ;; and if airplane has a more specific mention add that to the associations.
+
+
+
+
+
+
+
