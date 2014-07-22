@@ -34,9 +34,9 @@
 
 
 ;; Examples using data from a document about quantum teleportation.
-(def raw-document (slurp "/home/peter/Documents/test-text/spooky-action.txt"))
+(def raw-document (slurp "universe.txt"))
 (def annotated-document (annotated-doc raw-document))
-(def dcoref-chains (map #(.get % CorefCoreAnnotations$CorefChainAnnotation) annotated-document))
+(def dcoref-chains (.get annotated-document CorefCoreAnnotations$CorefChainAnnotation))
 (def chain (map #(.getValue %) dcoref-chains))
 (def representative-mentions (map #(.getRepresentativeMention %) chain))
 (def annotated-sentences (.get annotated-document CoreAnnotations$SentencesAnnotation))
@@ -116,6 +116,15 @@
     )
   )
 )
+(first representative-mentions)
+(class annotated-sentences)
+(class representative-mentions)
+(class chain)
+(first chain)
+(class dcoref-chains)
+(first dcoref-chains)
+(class annotated-document)
+(.size annotated-document)
 
 (get-rm-text (first representative-mentions) annotated-sentences)
 (:tag (get-rm-text (first representative-mentions) annotated-sentences))
@@ -130,6 +139,11 @@
 (.getTarget (first (.keySet (.getMentionMap (nth chain 3)))))
 
 (nth (tokens-sentence annotated-sentences 0) 7)
+
+;; Create sequence of token maps for each sentence and then mutate the tokens with the additional reference data
+
+
+
 ;;TODO
 ;; Now match representative-mentions with individual chain mentions
 ;; Try to weed out non PRP and @ mentions. Instead create new associations.

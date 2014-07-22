@@ -1,0 +1,23 @@
+﻿Scientists in the Netherlands have achieved a breakthrough in quantum teleportation that could quash Albert Einstein’s objection to the notion of quantum entanglement, which he famously labelled “spooky action at a distance”.
+Publishing their results in the journal Science this Thursday, physicists at the Kavli Institute of Nanoscience at Delft University say they managed to reliably teleport quantum information between two bits of diamond located three metres apart.
+Although this is not the same process as teleportation as imagined in science fiction, one of the lead authors of the paper Professor Ronald Hanson, said that it was possible that Star Trek-style “beaming up” would become a reality in the future.
+“What we are teleporting is the state of a particle," said Professor Hanson.
+"If you believe we are nothing more than a collection of atoms strung together in a particular way, then in principle it should be possible to teleport ourselves from one place to another.”
+“In practice it's extremely unlikely, but to say it can never work is very dangerous," Professor Hanson added.
+"I would not rule it out because there's no fundamental law of physics preventing it.
+If it ever does happen it will be far in the future.”
+However, this is not to say that the discovery of Professor Hanson and his team won’t have startling effects in the present, with accurate teleportation of quantum information a key step towards building quantum networks exponentially more powerful and secure than today’s supercomputers.
+While regular computers store information in bits (signals which exist as only a 0 or a 1) quantum computing uses ‘qubits’ which can hold multiple values at the same time.
+Getting these bits to communicate with one another as the physicists at Delft say they have could then be key to making an unhackable network of quantum computers.
+"The main application of quantum teleportation is a quantum version of the internet, extending a global network that we can use to send quantum information," said Professor Hanson.
+"What you're doing is using entanglement as your communication channel.
+The information is teleported to the other side, and there's no way anyone can intercept that information."
+Einstein himself doubted the existence of quantum entanglement, a phenomenon in which particles located as far away as opposite sides of the universe remain inextricably linked.
+Whatever happens to one particle instantaneously happens to the other like a quantum-powered Voodoo doll.
+With this comparison in mind it’s perhaps not surprising that Einstein – and many other physicists with him – found it hard to believe in entanglement, which was predicted by the theories of quantum mechanics long before scientists had the technology to test it.
+In a letter written in 1947 Einstein said he could not take quantum mechanics seriously because "physics should represent a reality in time and space, free from spooky actions at a distance."
+The team at Delft's experiments show that we're getting better all the time at creating these "spooky actions", but their experiments will have to be duplicated over far greater distances to show that signals between entangled particles occur at the speed of light.
+Still, this represents a major step forward for physics, with the quantum information (data about the spin state of an electron) transferred accurately in their tests 100 percent at the time.
+This is a far better success rate than a previous experiment from the University of Maryland in 2009, which teleported quantum information only once every 100 million attempts.
+In the Maryland experiments though, this one-in-a-100-million success rate still meant that a qubit of information took only 10 minutes to successfully transfer.
+This gives some indication of the staggering speeds at which even the most basic elements of a quantum computer function.

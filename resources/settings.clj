@@ -1,5 +1,5 @@
 {:uploads-dir "/tmp/ae-uploads"
- :nlp {:max-sentence-length 60
+ :nlp {:max-sentence-length 200
        :timeout 5000}
  :datomic {:uri "datomic:dev://localhost:4334/ae"
            :memcache-uri "localhost:11211"}

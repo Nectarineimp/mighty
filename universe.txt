@@ -1,0 +1,42 @@
+﻿The universe shouldn't exist — at least according to a new theory.
+ 
+Modeling of conditions soon after the Big Bang suggests the universe should have collapsed just microseconds after its explosive birth, the new study suggests.
+ 
+"During the early universe, we expected cosmic inflation — this is a rapid expansion of the universe right after the Big Bang," said study co-author Robert Hogan, a doctoral candidate in physics at King's College in London. "This expansion causes lots of stuff to shake around, and if we shake it too much, we could go into this new energy space, which could cause the universe to collapse."
+ 
+Physicists draw that conclusion from a model that accounts for the properties of the newly discovered Higgs boson particle, which is thought to explain how other particles get their mass; faint traces of gravitational waves formed at the universe's origin also inform the conclusion. [Doomsday: The 9 Real Ways Earth Could End]
+ 
+Of course, there must be something missing from these calculations.
+ 
+"We are here talking about it," Hogan told LiveScience. "That means we have to extend our theories to explain why this didn't happen."
+ 
+Bang!
+One possible explanation holds that during the fiery flash after the primordial Big Bang explosion, matter raced outward at breakneck speeds in a process known as cosmic inflation. This bent and squeezed space-time, creating ripples known as gravitational waves that also twisted the radiation that passed through the universe, Hogan said.
+ 
+Though those events would have occurred 13.8 billion years ago, a telescope at the South Pole known as the Background Imaging of Cosmic Extragalactic Polarization (BICEP2) recently detected the faint traces of cosmic inflation in the background microwave radiation that pervades the universe: in particular, characteristic twisted or curled waves called the B-mode pattern. (Other scientists have already begun to question the findings, saying the results may just be from dust in the Milky Way.)
+ 
+But gravity wasn't the only force at play in the early universe. A ubiquitous energy field, called the Higgs field, permeates the universe and gives mass to the particles that trudge through the field. Scientists found the telltale sign of that field in 2012, when they discovered the Higgs boson and then determined its mass. [6 Implications of Finding a Higgs Boson Particle]
+ 
+With a greater understanding of cosmic inflation's properties and the Higgs boson mass, Hogan and his colleague, Malcolm Fairbairn, who is also a physicist at King's College London, tried to recreate the conditions of cosmic inflation after the Big Bang.
+ 
+What they found was bad news for, well, everything. The newborn universe should have experienced an intense jittering in the energy field, known as quantum fluctuation. Those jitters, in turn, could have disrupted the Higgs field, in essence rolling the entire system into a much lower energy state that would make the collapse of the universe inevitable.
+ 
+Missing ingredient
+So if the universe shouldn't exist, why is it here?
+ 
+"The generic expectation is that there must be some new physics that we haven't put in our theories yet, because we haven't been able to discover them," Hogan said.
+ 
+One leading possibility, known as the theory of supersymmetry, proposes that there are superpartner particles for all the currently known particles, and perhaps more-powerful particle accelerators could find these particles, Hogan said.
+ 
+But the theory of cosmic inflation is still speculative, and some physicists hint that what looked like primordial gravitational waves to the BICEP2 telescope may actually be signals from cosmic dust in the galaxy, said Sean Carroll, a physicist at the California Institute of Technology and author of "The Particle at the End of the Universe: How the Hunt for the Higgs Boson Leads Us to the Edge of a New World" (Dutton Adult, 2012).
+ 
+If the details of cosmic inflation change, then Hogan and Fairbairn's model would need to adapt as well, Carroll told Live Science. Caroll was not involved in the study.
+ 
+Interestingly, this isn't the first time that physicists have said the Higgs boson spells doom for the universe. Others have calculated that the Higgs boson's mass would lead to a fundamentally unstable universe that could end apocalyptically in billions of years.
+ 
+The mass of the Higgs boson, about 126 times that of the proton, turns out to be "right on the edge," in terms of the universe's stability, Carroll said. A little bit lighter, and the Higgs field would be much more easily perturbed; a little heavier, and the current Higgs field would be incredibly stable.
+ 
+Hogan will present his findings on June 24 at the Royal Astronomical Society meeting in Portsmouth, England, and the study was published May 20 in the journal Physical Review Letters.
+
+
+Read more: http://www.livescience.com/46478-universe-should-have-collapsed.html#ixzz35ZvIKY1W
