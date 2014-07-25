@@ -137,6 +137,18 @@
 (.getMentionMap (nth chain 3))
 (.getSource (first (.keySet (.getMentionMap (nth chain 3)))))
 (.getTarget (first (.keySet (.getMentionMap (nth chain 3)))))
+(defn filter-chain [chain]
+  (->> chain
+  .getMentionMap
+  count
+  (< 1)))
+
+(filter-chain (second chain))
+(map #(get-rm-text (.getRepresentativeMention %) annotated-sentences) (filter filter-chain chain))
+(defn get-rm-mm [chain annotated-sentences]
+  (let [rm (.getRepresentativeMention chain)
+        mm (.getMentionMap chain)
+        ]))
 
 (nth (tokens-sentence annotated-sentences 0) 7)
 
