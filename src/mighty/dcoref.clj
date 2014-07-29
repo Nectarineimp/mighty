@@ -1,7 +1,10 @@
 (ns mighty.dcoref
   (:require [clojure.string :as str :refer (join)]
             [clojure.pprint :refer (pprint)]
-            [mighty.config :refer (config)])
+            [mighty.config :refer (config)]
+            [incanter.core :as incanter]
+            [incanter.stats :as stats]
+            [incanter.distributions :as dist])
   (:import (edu.stanford.nlp.pipeline StanfordCoreNLP
                                       Annotation)
            (edu.stanford.nlp.ling CoreAnnotations$SentencesAnnotation
@@ -144,20 +147,24 @@
   (< 1)))
 
 (filter-chain (second chain))
+
 (map #(get-rm-text (.getRepresentativeMention %) annotated-sentences) (filter filter-chain chain))
+
 (defn get-rm-mm [chain annotated-sentences]
   (let [rm (.getRepresentativeMention chain)
-        mm (.getMentionMap chain)
-        ]))
+        mm (.getMentionMap chain)]
+       ;; process goes here
+  ))
 
 (nth (tokens-sentence annotated-sentences 0) 7)
 
-;; Create sequence of token maps for each sentence and then mutate the tokens with the additional reference data
+Sorting with depuplication
+(def unsorted-seq (stats/sample (range 99) :size 10))
+unsorted-seq
 
+(defn dedup-sort [coll]
+  (->> coll
+       sort
+       distinct))
+(dedup-sort unsorted-seq)
 
-
-;;TODO
-;; Now match representative-mentions with individual chain mentions
-;; Try to weed out non PRP and @ mentions. Instead create new associations.
-;; Example. It looked like an airplane. Replace It with representative-mention
-;; and if airplane has a more specific mention add that to the associations.
