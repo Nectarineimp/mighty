@@ -119,6 +119,7 @@
     )
   )
 )
+
 (first representative-mentions)
 (class annotated-sentences)
 (class representative-mentions)
@@ -140,6 +141,9 @@
 (.getMentionMap (nth chain 3))
 (.getSource (first (.keySet (.getMentionMap (nth chain 3)))))
 (.getTarget (first (.keySet (.getMentionMap (nth chain 3)))))
+
+;; filter out the mono-mentions. The remaining chains are useful
+
 (defn filter-chain [chain]
   (->> chain
   .getMentionMap
@@ -150,21 +154,39 @@
 
 (map #(get-rm-text (.getRepresentativeMention %) annotated-sentences) (filter filter-chain chain))
 
+(defn mm-get-source [mm]
+  (->> mm
+       .keySet
+       first
+       .getSource
+  )
+)
+
+(defn mm-get-target [mm]
+  (->> mm
+       .keySet
+       first
+       .getTarget
+  )
+)
+
 (defn get-rm-mm [chain annotated-sentences]
   (let [rm (.getRepresentativeMention chain)
+        rm-text (get-rm-text rm)
         mm (.getMentionMap chain)]
-       ;; process goes here
+    (list rm-text (map #(hash-map :start (mm-get-source %) :end (mm-get-target %)) mm))
   ))
 
-(nth (tokens-sentence annotated-sentences 0) 7)
+()
 
-Sorting with depuplication
-(def unsorted-seq (stats/sample (range 99) :size 10))
-unsorted-seq
+;Sorting with depuplication
+(def unsorted-seq (stats/sample (range 100) :size 10000))
 
 (defn dedup-sort [coll]
   (->> coll
        sort
        distinct))
 (dedup-sort unsorted-seq)
+
+(cond 100)
 
