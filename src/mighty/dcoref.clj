@@ -35,13 +35,16 @@
   ;; This function take our text and passes it through the NLP pipeline.
   (.process pipeline s))
 
+;; Primary fixed definitions
+(def noun-tags '("NN" "NNS" "NNP" "NNPS"))
+(def good-body-tags '("DT" "IN" "RP" "TO" "JJ" "JJR" "JJS" "NN" "NNS" "NNP" "NNPS"))
+(def good-first-tags '("NN" "NNS" "NNP" "NNPS"))
 
-;; Examples using data from a document about quantum teleportation.
+;; primary data sources
 (def raw-document (slurp "universe.txt"))
 (def annotated-document (annotated-doc raw-document))
 (def dcoref-chains (.get annotated-document CorefCoreAnnotations$CorefChainAnnotation))
-(def chain (map #(.getValue %) dcoref-chains))
-(def representative-mentions (map #(.getRepresentativeMention %) chain))
+(def chains (map #(.getValue %) dcoref-chains))
 (def annotated-sentences (.get annotated-document CoreAnnotations$SentencesAnnotation))
 
 (defn- tokens-sentence
@@ -79,37 +82,34 @@
   (let [tokens (.get (nth annotated-sentences sentNum) CoreAnnotations$TokensAnnotation)]
     (select-tokens tokens startIndex endIndex)))
 
-(defn hash-tokens
+(defn- hash-tokens
   ;; Takes token coordinates and produces token maps.
   ;; as annotated sentences
   ;; tc token coordinates
   [as tc]
   (map #(hash-map :word (.originalText %) :ner (.ner %) :tag (.tag %)) (coord-to-tokens as tc)))
 
-(def noun-tags '("NN" "NNS" "NNP" "NNPS"))
-(def good-body-tags '("DT" "IN" "RP" "TO" "JJ" "JJR" "JJS" "NN" "NNS" "NNP" "NNPS"))
-(def good-first-tags '("NN" "NNS" "NNP" "NNPS"))
-
-(defn noun-tag? [tag]
+;; Noun Phrase Handling
+(defn- noun-tag? [tag]
   (some #(= tag %) noun-tags))
 
-(defn good-body-tags? [token]
+(defn- good-body-tags? [token]
   (some #(= (:tag token) %) good-body-tags))
 
-(defn good-first-tag? [token]
+(defn- good-first-tag? [token]
   (some #(= (:tag token) %) good-first-tags))
 
-(defn just-text
+(defn- just-text
   ;; ht hash tokens
   [ht]
   (map :word ht))
 
-(defn text-tag
+(defn- text-tag
   ;; ht hash tokens
   [ht]
   (map #(str (:word %) " - " (:tag %)) ht))
 
-(defn get-rm-text [rm as]
+(defn- get-rm-text [rm as]
   (let [ht (->> rm
        rep-mention-coordinates
        (hash-tokens as))]
@@ -120,41 +120,17 @@
   )
 )
 
-(first representative-mentions)
-(class annotated-sentences)
-(class representative-mentions)
-(class chain)
-(first chain)
-(class dcoref-chains)
-(first dcoref-chains)
-(class annotated-document)
-(.size annotated-document)
-
-(get-rm-text (first representative-mentions) annotated-sentences)
-(:tag (get-rm-text (first representative-mentions) annotated-sentences))
-
-;; example
-(map #(get-rm-text % annotated-sentences) representative-mentions)
-
-(map #(.tag %) (sentence-2-tokens (nth annotated-sentences 3)))
-(map #(.originalText %) (sentence-2-tokens (nth annotated-sentences 3)))
-(.getMentionMap (nth chain 3))
-(.getSource (first (.keySet (.getMentionMap (nth chain 3)))))
-(.getTarget (first (.keySet (.getMentionMap (nth chain 3)))))
-
 ;; filter out the mono-mentions. The remaining chains are useful
-
-(defn filter-chain [chain]
+(defn- filter-chain [chain]
   (->> chain
   .getMentionMap
   count
   (< 1)))
 
-(filter-chain (second chain))
+;;example
+(map #(get-rm-text (.getRepresentativeMention %) annotated-sentences) (filter filter-chain chains))
 
-(map #(get-rm-text (.getRepresentativeMention %) annotated-sentences) (filter filter-chain chain))
-
-(defn mm-get-source [mm]
+(defn- mm-get-source [mm]
   (->> mm
        .keySet
        first
@@ -162,7 +138,7 @@
   )
 )
 
-(defn mm-get-target [mm]
+(defn- mm-get-target [mm]
   (->> mm
        .keySet
        first
@@ -177,7 +153,7 @@
     (list rm-text (map #(hash-map :start (mm-get-source %) :end (mm-get-target %)) mm))
   ))
 
-()
+(map #(get-rm-mm % annotated-sentences) (filter filter-chain chain))
 
 ;Sorting with depuplication
 (def unsorted-seq (stats/sample (range 100) :size 10000))
