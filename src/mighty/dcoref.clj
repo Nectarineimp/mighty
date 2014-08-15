@@ -11,6 +11,7 @@
                                   CoreAnnotations$NamedEntityTagAnnotation
                                   CoreAnnotations$TokensAnnotation
                                   CoreAnnotations$MentionTokenAnnotation)
+           (edu.stanford.nlp.trees TreeCoreAnnotations$TreeAnnotation)
            (edu.stanford.nlp.dcoref CorefCoreAnnotations
                                     CorefCoreAnnotations$CorefChainAnnotation
                                     CorefCoreAnnotations$CorefGraphAnnotation)
@@ -46,6 +47,13 @@
 (def dcoref-chains (.get annotated-document CorefCoreAnnotations$CorefChainAnnotation))
 (def chains (map #(.getValue %) dcoref-chains))
 (def annotated-sentences (.get annotated-document CoreAnnotations$SentencesAnnotation))
+(.keySet (first annotated-sentences))
+(def tree (.get (first annotated-sentences) TreeCoreAnnotations$TreeAnnotation))
+(.labels tree)
+(.label (.firstChild tree))
+(.depth tree)
+(.firstchild tree)
+
 
 (defn- tokens-sentence
   ;; Takes the processed document and recovers the token annotations from it.
@@ -130,30 +138,28 @@
 ;;example
 (map #(get-rm-text (.getRepresentativeMention %) annotated-sentences) (filter filter-chain chains))
 
-(defn- mm-get-source [mm]
-  (->> mm
-       .keySet
-       first
+(defn- mm-get-source [mention]
+  (->> mention
        .getSource
   )
 )
 
-(defn- mm-get-target [mm]
-  (->> mm
-       .keySet
-       first
+(defn- mm-get-target [mention]
+  (->> mention
        .getTarget
   )
 )
 
 (defn get-rm-mm [chain annotated-sentences]
   (let [rm (.getRepresentativeMention chain)
-        rm-text (get-rm-text rm)
+        rm-text (get-rm-text rm annotated-sentences)
         mm (.getMentionMap chain)]
-    (list rm-text (map #(hash-map :start (mm-get-source %) :end (mm-get-target %)) mm))
-  ))
+    ;;(map #(hash-map :start (mm-get-source %) :end (mm-get-target %)) mm)))
+    (map #(hash-map :sentence (mm-get-source %) :token (mm-get-target %)) (.keySet mm))))
 
-(map #(get-rm-mm % annotated-sentences) (filter filter-chain chain))
+(def aChain (first (filter filter-chain chains)))
+(map mm-get-source (.keySet (.getMentionMap aChain)))
+(get-rm-mm aChain annotated-sentences)
 
 ;Sorting with depuplication
 (def unsorted-seq (stats/sample (range 100) :size 10000))
@@ -163,6 +169,3 @@
        sort
        distinct))
 (dedup-sort unsorted-seq)
-
-(cond 100)
-
