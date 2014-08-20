@@ -52,7 +52,7 @@
 (.labels tree)
 (.label (.firstChild tree))
 (.depth tree)
-(.firstchild tree)
+
 
 
 (defn- tokens-sentence
